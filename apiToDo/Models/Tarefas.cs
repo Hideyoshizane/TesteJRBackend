@@ -22,7 +22,7 @@ namespace apiToDo.Models
                 lstTarefas.Add(new TarefaDTO
                 {
                     ID_TAREFA = 2,
-                    DS_TAREFA = "Fazer Atividad Faculdade"
+                    DS_TAREFA = "Fazer Atividade Faculdade"
                 });
 
                 lstTarefas.Add(new TarefaDTO
@@ -31,7 +31,9 @@ namespace apiToDo.Models
                     DS_TAREFA = "Subir Projeto de Teste no GitHub"
                 });
 
-                return new List<TarefaDTO>();
+                //Retorna a lista criada em vez de uma lista vazia
+                //return new List<TarefaDTO>();
+                return lstTarefas;
             }
             catch(Exception ex)
             {
@@ -58,8 +60,14 @@ namespace apiToDo.Models
             {
                 List<TarefaDTO> lstResponse = lstTarefas();
                 var Tarefa = lstResponse.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
-                TarefaDTO Tarefa2 = lstResponse.Where(x=> x.ID_TAREFA == Tarefa.ID_TAREFA).FirstOrDefault();
-                lstResponse.Remove(Tarefa2);
+                //Adicionado uma verificação para evitar erro de referência caso a tarefa não seja encontrada.
+                if (Tarefa != null)
+                {
+                    lstResponse.Remove(Tarefa);
+                }
+                //Código redundante 
+                //TarefaDTO Tarefa2 = lstResponse.Where(x=> x.ID_TAREFA == Tarefa.ID_TAREFA).FirstOrDefault(); 
+                //lstResponse.Remove(Tarefa2);
             }
             catch(Exception ex)
             {
