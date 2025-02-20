@@ -43,7 +43,7 @@ namespace apiToDo.Controllers
             try
             {   
                 //Chama a função para inserir a tarefa na lista
-                _tarefasService.InserirTarefa(request);
+                _tarefasService.InserirTarefa(Request);
                 //Chama a função lstTarefas para retornar a lista atualizada
                 var tarefas = _tarefasService.lstTarefas(); 
                  //Retorna a lista e o código 200
