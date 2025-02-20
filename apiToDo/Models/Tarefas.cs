@@ -58,7 +58,7 @@ namespace apiToDo.Models
         {
             try
             {
-                 // Recupera a lista de tarefas
+                // Recupera a lista de tarefas
                 List<TarefaDTO> lstResponse = lstTarefas();
 
                 // Procura a tarefa com o ID especificado.
@@ -79,6 +79,65 @@ namespace apiToDo.Models
             catch(Exception ex)
             {
                throw new Exception($"Erro ao tentar deletar a tarefa com ID {ID_TAREFA}: {ex.Message}", ex);
+            }
+        }
+        // Método para atualizar um item da lista
+        public List<TarefaDTO> AtualizarTarefa(TarefaDTO Request)
+        {
+            try
+            {
+                // Recupera a lista de tarefas
+                List<TarefaDTO> lstResponse = lstTarefas();
+
+                // Procura a tarefa com o ID especificado.
+                var Tarefa = lstResponse.FirstOrDefault(x => x.ID_TAREFA == Request.ID_TAREFA);
+
+
+                //Adicionado uma verificação para evitar erro de referência caso a tarefa não seja encontrada.
+                if (Tarefa != null)
+                {
+                    // Se a tarefa for encontrada, atualiza a descrição
+                    Tarefa.DS_TAREFA = Request.DS_TAREFA;
+                }
+                else
+                {
+                    // Se não encontrar a tarefa, lança uma exceção
+                    throw new Exception($"Tarefa com ID {Request.ID_TAREFA} não encontrada.");
+                }
+                // Retorna a lista de tarefas atualizada
+                return lstResponse;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Erro ao tentar atualizar a tarefa com ID {Request.ID_TAREFA}: {ex.Message}", ex);
+            }
+        }
+        // Método para pegar um item da lista pelo ID
+        public TarefaDTO PegarTarefaPorID(int ID_TAREFA)
+        {
+            try
+            {
+                // Recupera a lista de tarefas
+                List<TarefaDTO> lstResponse = lstTarefas();
+
+                // Procura pela tarefa com o ID_TAREFA especificado
+                var Tarefa = lstResponse.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
+
+                // Se a tarefa for encontrada, retorna o objeto
+                if (Tarefa != null)
+                {
+                    return Tarefa;
+                }
+                else
+                {
+                    // Se não encontrar a tarefa, lança uma exceção
+                    throw new Exception($"Tarefa com ID {ID_TAREFA} não encontrada.");
+                }
+            }
+            catch(Exception ex)
+            {
+                // Lança exceção detalhando o erro
+                throw new Exception($"Erro ao tentar buscar a tarefa com ID {ID_TAREFA}: {ex.Message}", ex);
             }
         }
     }
