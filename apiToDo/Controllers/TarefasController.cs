@@ -10,14 +10,25 @@ namespace apiToDo.Controllers
     [Route("[controller]")]
     public class TarefasController : ControllerBase
     {
+        //Iiniciado para evitar referência nula
+        private readonly Tarefas _tarefasService;
+        // Adicionado um construtor para inicializar a classe Tarefas
+        public TarefasController()
+        {
+            _tarefasService = new Tarefas();
+        }
+
+         
         [Authorize]
         [HttpPost("lstTarefas")]
         public ActionResult lstTarefas()
         {
             try
             {
-              
-                return StatusCode(200);
+                //Chama a função que preenche e retorna a lista
+                var tarefas = _tarefasService.lstTarefas();
+                //Retorna a lista e o código 200
+                return StatusCode(200, tarefas);
             }
 
             catch (Exception ex)
@@ -30,9 +41,13 @@ namespace apiToDo.Controllers
         public ActionResult InserirTarefas([FromBody] TarefaDTO Request)
         {
             try
-            {
-
-                return StatusCode(200);
+            {   
+                //Chama a função para inserir a tarefa na lista
+                _tarefasService.InserirTarefa(request);
+                //Chama a função lstTarefas para retornar a lista atualizada
+                var tarefas = _tarefasService.lstTarefas(); 
+                 //Retorna a lista e o código 200
+                return StatusCode(200, tarefas);
 
 
             }
@@ -48,8 +63,12 @@ namespace apiToDo.Controllers
         {
             try
             {
-
-                return StatusCode(200);
+                //Chama a função para remover a tarefa na lista
+                _tarefasService.DeletarTarefa(ID_TAREFA);
+                //Chama a função lstTarefas para retornar a lista atualizada
+                var tarefas = _tarefasService.lstTarefas();
+                //Retorna a lista e o código 200
+                return StatusCode(200, tarefas);
             }
 
             catch (Exception ex)
