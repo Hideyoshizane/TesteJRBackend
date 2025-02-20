@@ -76,5 +76,38 @@ namespace apiToDo.Controllers
                 return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}" });
             }
         }
+
+        // Novo Controller para Atualizar a Tarefa
+        [HttpPut("AtualizarTarefa")]
+         public ActionResult AtualizarTarefa([FromBody] TarefaDTO Request)
+        {
+            try
+            {
+                // Chama a função para atualizar a tarefa na lista
+                var tarefas = _tarefasService.AtualizarTarefa(Request);
+                // Retorna a lista atualizada com o código 200
+                return StatusCode(200, tarefas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao atualizar a tarefa: {ex.Message}" });
+            }
+        }
+         // Novo Controller para pegar uma Tarefa por ID
+        [HttpGet("PegarTarefaPorID")]
+        public ActionResult PegarTarefaPorID([FromQuery] int ID_TAREFA)
+        {
+            try
+            {
+                // Chama a função para obter a tarefa com o ID_TAREFA fornecido
+                var tarefa = _tarefasService.PegarTarefaPorID(ID_TAREFA);
+                // Retorna o objeto encontrado com o código 200
+                return StatusCode(200, tarefa);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, new { msg = $"Ocorreu um erro ao buscar a tarefa: {ex.Message}" });
+            }
+        }
     }
 }
